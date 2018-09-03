@@ -1,5 +1,13 @@
+#tag::staticresources[]
 micronaut:
     application:
         name: exceldownloader
     server:
         port: 8080
+    router:
+        static:
+            resources:
+                enabled: true
+                mapping: /**
+                paths: classpath:public
+#end::staticresources[]

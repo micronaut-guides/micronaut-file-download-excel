@@ -1,29 +1,44 @@
-Add https://docs.micronaut.io/snapshot/guide/index.html#views[Server Side View Rendering] and https://www.thymeleaf.org/[Thymeleaf] dependencies:
+Enable static resources:
 
 [source, groovy]
-.build.gradle
+.src/main/resources/application.yml
 ----
 dependencies {
     ...
     ..
     .
-include::{sourceDir}/build.gradle[tag=views]
+include::{sourceDir}/src/main/resources/application.yml[tag=staticresources]
 }
 ----
+
+Create a plain `index.html` HTML 5 with a link to download the excel file:
+
+[source, html]
+.src/main/resources/public/index.html
+----
+dependencies {
+    ...
+    ..
+    .
+include::{sourceDir}/src/main/resources/public/index.html[]
+}
+----
+
+Check also https://docs.micronaut.io/snapshot/guide/index.html#views[Server Side View Rendering] documentation for more options.
+
 
 Create a controller:
 
 [source, java]
-.src/main/java/example/micronaut/HomeController.java
+.src/main/java/example/micronaut/ExcelController.java
 ----
-include::{sourceDir}/src/main/java/example/micronaut/HomeController.java[]
+include::{sourceDir}/src/main/java/example/micronaut/ExcelController.java[]
 ----
 
 <1> The class is defined as a controller with the `@Controller` annotation mapped to the path `/`
 <2> Constructor injection
-<3> Use `@View` annotation to specify which template would you like to render the response against.
-<4> You can specify the HTTP verb for which a controller's action responds to. To respond to a GET request, use `io.micronaut.http.annotation.Get`
-<5> `AttachedFile` is used as the return value of a route execution to indicate the given file should be downloaded by the client instead of displayed.
+<3> You can specify the HTTP verb for which a controller's action responds to. To respond to a GET request, use `io.micronaut.http.annotation.Get`
+<4> `AttachedFile` is used as the return value of a route execution to indicate the given file should be downloaded by the client instead of displayed.
 
 The previous controller index method renders a simple view with a link to download the excel file:
 

@@ -3,31 +3,21 @@ package example.micronaut;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.server.types.files.AttachedFile;
-import io.micronaut.views.View;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@Controller("/") // <1>
-public class HomeController {
+@Controller("/excel") // <1>
+public class ExcelController {
 
     protected final BookRepository bookRepository;
     protected final BookExcelService bookExcelService;
 
-    public HomeController(BookRepository bookRepository,  // <2>
-                          BookExcelService bookExcelService) {
+    public ExcelController(BookRepository bookRepository,  // <2>
+                           BookExcelService bookExcelService) {
         this.bookRepository = bookRepository;
         this.bookExcelService = bookExcelService;
     }
 
-    @View("index") // <3>
-    @Get
-    Map<String, String> index() {
-        return new HashMap<>();
-    }
-
-    @Get("/excel") // <4>
-    AttachedFile excel() { // <5>
+    @Get // <3>
+    AttachedFile excel() { // <4>
         return bookExcelService.excelFileFromBooks(bookRepository.findAll());
     }
 }
