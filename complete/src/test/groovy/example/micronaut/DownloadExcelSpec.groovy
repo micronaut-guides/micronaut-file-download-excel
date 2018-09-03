@@ -54,6 +54,6 @@ class DownloadExcelSpec extends GebSpec {
         result.cells.size() == 1
 
         cleanup:
-        new File(expectedPath).delete()
+        outputFile?.delete()
     }
 }
