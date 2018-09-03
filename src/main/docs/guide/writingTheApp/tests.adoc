@@ -45,6 +45,10 @@ Create a test which verifies the Excel file is downloaded and the content matche
 include::{sourceDir}/src/test/groovy/example/micronaut/DownloadExcelSpec.groovy[]
 ----
 
+<1> The AutoCleanup extension makes sure the close() method of an object (e.g. EmbeddedServer) is called each time a feature method is finished
+<2> To run the application from a unit test you can use the EmbeddedServer interface
+<3> The `EmbeddedServer` interface provides the URL of the server under test which runs on a random port. We use this port to set http://www.gebish.org/manual/current/#base-url[Geb base url].
+
 To run the tests:
 
 [source,bash]

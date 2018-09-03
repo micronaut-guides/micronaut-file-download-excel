@@ -15,14 +15,14 @@ import spock.util.concurrent.PollingConditions
 class DownloadExcelSpec extends GebSpec {
 
     @Shared
-    @AutoCleanup
-    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer, [:], Environment.TEST)
+    @AutoCleanup // <1>
+    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer, [:], Environment.TEST) // <2>
 
     @IgnoreIf({ !sys['download.folder'] || sys['geb.env'] != 'chrome' })
     def "books can be downloaded as an excel file"() {
         given:
         PollingConditions conditions = new PollingConditions(timeout: 5)
-        browser.baseUrl = "http://localhost:${embeddedServer.port}"
+        browser.baseUrl = "http://localhost:${embeddedServer.port}" // <3>
 
         when:
         browser.to HomePage

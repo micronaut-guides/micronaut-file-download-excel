@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Singleton;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -18,8 +19,8 @@ public class BookExcelServiceImpl implements BookExcelService {
 
     @Override
     public AttachedFile excelFileFromBooks(List<Book> bookList) {
-        File file = new File(HEADER_EXCEL_FILENAME);
         try {
+            File file = File.createTempFile(HEADER_EXCEL_FILE_PREFIX, HEADER_EXCEL_FILE_SUFIX);
             PoiSpreadsheetBuilder.create(file).build(w -> {
                 w.apply(BookExcelStylesheet.class);
                 w.sheet(SHEET_NAME, s -> {
@@ -36,12 +37,12 @@ public class BookExcelServiceImpl implements BookExcelService {
                             }));
                 });
             });
-        } catch (FileNotFoundException e) {
+            return new AttachedFile(file, HEADER_EXCEL_FILENAME);
+        } catch (IOException e) {
             if (LOG.isErrorEnabled()) {
                 LOG.error("File not found exception raised when generating excel file");
             }
         }
-
-        return new AttachedFile(file, HEADER_EXCEL_FILENAME);
+        return null;
     }
 }
