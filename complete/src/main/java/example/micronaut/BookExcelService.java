@@ -1,7 +1,7 @@
 package example.micronaut;
 
 import java.util.List;
-import io.micronaut.http.server.types.files.AttachedFile;
+import io.micronaut.http.server.types.files.SystemFile;
 
 public interface BookExcelService {
     static final String SHEET_NAME = "Books";
@@ -11,5 +11,5 @@ public interface BookExcelService {
     static final String HEADER_EXCEL_FILE_PREFIX = "books";
     static final String HEADER_EXCEL_FILENAME = HEADER_EXCEL_FILE_PREFIX + HEADER_EXCEL_FILE_SUFIX;
 
-    AttachedFile excelFileFromBooks(List<Book> bookList); // <1>
+    SystemFile excelFileFromBooks(List<Book> bookList); // <1>
 }

@@ -2,7 +2,7 @@ package example.micronaut;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.micronaut.http.server.types.files.AttachedFile;
+import io.micronaut.http.server.types.files.SystemFile;
 import io.micronaut.views.View;
 
 import java.util.HashMap;
@@ -27,7 +27,7 @@ public class HomeController {
     }
 
     @Get("/excel") // <4>
-    AttachedFile excel() { // <5>
+    SystemFile excel() { // <5>
         return bookExcelService.excelFileFromBooks(bookRepository.findAll());
     }
 }

@@ -1,13 +1,12 @@
 package example.micronaut;
 
 import builders.dsl.spreadsheet.builder.poi.PoiSpreadsheetBuilder;
-import io.micronaut.http.server.types.files.AttachedFile;
+import io.micronaut.http.server.types.files.SystemFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
@@ -18,7 +17,7 @@ public class BookExcelServiceImpl implements BookExcelService {
     private static final Logger LOG = LoggerFactory.getLogger(BookExcelServiceImpl.class);
 
     @Override
-    public AttachedFile excelFileFromBooks(List<Book> bookList) {
+    public SystemFile excelFileFromBooks(List<Book> bookList) {
         try {
             File file = File.createTempFile(HEADER_EXCEL_FILE_PREFIX, HEADER_EXCEL_FILE_SUFIX);
             PoiSpreadsheetBuilder.create(file).build(w -> {
@@ -37,7 +36,7 @@ public class BookExcelServiceImpl implements BookExcelService {
                             }));
                 });
             });
-            return new AttachedFile(file, HEADER_EXCEL_FILENAME);
+            return new SystemFile(file).attach(HEADER_EXCEL_FILENAME);
         } catch (IOException e) {
             if (LOG.isErrorEnabled()) {
                 LOG.error("File not found exception raised when generating excel file");

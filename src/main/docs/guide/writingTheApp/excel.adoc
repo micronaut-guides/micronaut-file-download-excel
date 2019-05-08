@@ -6,7 +6,7 @@ Create a interface to encapsulate Excel generation:
 include::{sourceDir}/src/main/java/example/micronaut/BookExcelService.java[]
 ----
 
-<1> `AttachedFile` is used as the return value of a route execution to indicate the given file should be downloaded by the client instead of displayed.
+<1> `SystemFile` is used as the return value of a route execution to indicate the given file should be downloaded by the client instead of displayed.
 
 Externalize your styles configuration into a class implementing `builders.dsl.spreadsheet.builder.api.Stylesheet` interface to maximize code reuse.
 
