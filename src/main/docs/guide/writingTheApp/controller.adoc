@@ -23,7 +23,7 @@ include::{sourceDir}/src/main/java/example/micronaut/HomeController.java[]
 <2> Constructor injection
 <3> Use `@View` annotation to specify which template would you like to render the response against.
 <4> You can specify the HTTP verb for which a controller's action responds to. To respond to a GET request, use `io.micronaut.http.annotation.Get`
-<5> `AttachedFile` is used as the return value of a route execution to indicate the given file should be downloaded by the client instead of displayed.
+<5> `SystemFile` is used as the return value of a route execution to indicate the given file should be downloaded by the client instead of displayed.
 
 The previous controller index method renders a simple view with a link to download the excel file:
 
