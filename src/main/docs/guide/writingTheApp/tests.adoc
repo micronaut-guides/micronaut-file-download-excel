@@ -10,7 +10,7 @@ To use Geb, add dependencies:
 [source, groovy]
 .build.gradle
 ----
-include::{sourceDir}/build.gradle[tag=geb]
+include::{sourceDir}/build.gradle[tag=geb,indent=0]
 ----
 
 Create a Geb Configuration file. We configure some chrome options to control the download path.
