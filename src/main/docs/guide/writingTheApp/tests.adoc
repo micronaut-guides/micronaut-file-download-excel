@@ -45,7 +45,7 @@ Create a test which verifies the Excel file is downloaded and the content matche
 include::{sourceDir}/src/test/groovy/example/micronaut/DownloadExcelSpec.groovy[]
 ----
 
-<1> Annotate the class with `@MicronatTest` to let Micronaut starts the embedder server and inject the beans. More info: https://micronaut-projects.github.io/micronaut-test/latest/guide/index.html[https://micronaut-projects.github.io/micronaut-test/latest/guide/index.html]
+<1> Annotate the class with `@MicronatTest` to let Micronaut starts the embedded server and inject the beans. More info: https://micronaut-projects.github.io/micronaut-test/latest/guide/index.html[https://micronaut-projects.github.io/micronaut-test/latest/guide/index.html]
 <2> Inject the Embedded Server.
 <3> The `EmbeddedServer` interface provides the URL of the server under test which runs on a random port. We use this port to set http://www.gebish.org/manual/current/#base-url[Geb base url].
 
