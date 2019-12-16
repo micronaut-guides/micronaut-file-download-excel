@@ -8,7 +8,7 @@ import io.micronaut.views.View;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller("/") // <1>
+@Controller // <1>
 public class HomeController {
 
     protected final BookRepository bookRepository;
