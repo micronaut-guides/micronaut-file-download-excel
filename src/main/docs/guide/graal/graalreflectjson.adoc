@@ -1,0 +1,106 @@
+After you run the native image, try to open in your browser http://localhost:8080
+
+We expected to retrieve the home page of our app however we get an exception:
+
+[source,bash]
+----
+$ ./micronautguide
+	....
+Caused by: java.lang.IllegalStateException: Cannot load getContextTypeLoader: verify that xbean.jar is on the classpath
+	at org.apache.xmlbeans.XmlBeans.buildMethod(XmlBeans.java:185)
+	at org.apache.xmlbeans.XmlBeans.buildNoArgMethod(XmlBeans.java:194)
+	at org.apache.xmlbeans.XmlBeans.buildGetContextTypeLoaderMethod(XmlBeans.java:204)
+	at org.apache.xmlbeans.XmlBeans.<clinit>(XmlBeans.java:130)
+	at com.oracle.svm.core.hub.ClassInitializationInfo.invokeClassInitializer(ClassInitializationInfo.java:350)
+	at com.oracle.svm.core.hub.ClassInitializationInfo.initialize(ClassInitializationInfo.java:270)
+	... 57 common frames omitted
+Caused by: java.lang.ClassNotFoundException: org.apache.xmlbeans.impl.schema.SchemaTypeLoaderImpl
+	at com.oracle.svm.core.hub.ClassForNameSupport.forName(ClassForNameSupport.java:60)
+	at java.lang.Class.forName(DynamicHub.java:1197)
+	at org.apache.xmlbeans.XmlBeans.buildMethod(XmlBeans.java:178)
+	... 62 common frames omitted
+^C
+
+----
+
+We need to provide a reflection configuration file for https://xmlbeans.apache.org[XMLBeans].
+
+Fortunately, GraalVM native image module provides a tracing agent to simplify GraalVM Native Image configuration.
+
+Create folder to save the configuration files
+
+[source, bash]
+----
+$ mkdir config-files
+----
+
+Stop the native image and run the app with the tracing agent.
+
+[source, bash]
+----
+$ java -jar  -agentlib:native-image-agent=config-output-dir=config-files build/libs/complete-0.1-all.jar
+$ 13:24:58.938 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 1185ms. Server Running: http://localhost:8080
+----
+
+Once the app starts, navigate to the home page. It should render without errors.
+
+Stop the app and inspect the folder `config-files`. Several files have been created:
+
+[source, bash]
+----
+jni-config.json
+proxy-config.json
+reflect-config.json
+resource-config.json
+----
+
+Copy entries from the file `reflect-config.json`, which match the package `org.apache.xmlbeans` and `org.openxmlformats`, to a new file named `src/main/graal/reflect.json`.
+
+The file will look like:
+
+[source, json]
+.src/main/graal/reflect.json
+----
+include::{sourcedir}/src/main/graal/reflect.json[]
+----
+
+TIP: `src/main/graal/reflect.json` will be automatically picked up by Micronaut Graal annotation processor.
+
+Generate the native image again:
+
+[source,bash]
+----
+$ ./gradlew clean
+$ ./gradlew assemble
+$ native-image --no-server -cp build/libs/complete-0.1-all.jar
+----
+
+Run the native image:
+
+[source,bash]
+----
+$ ./micronautguide
+13:38:43.134 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 19ms. Server Running: http://localhost:8080
+----
+
+You app is running as a GraalVM native image. Open your browser and you should be able to download the excel file succesfully.
+
+WARNING: If you did not specify the `IncludeResourceBundles` options in the `native-image.properties` file, you will get:
+[source, bash]
+----
+Caused by: java.lang.RuntimeException: Installation Problem???  Couldn't load messages: Resource bundle not found org.apache.xmlbeans.impl.regex.message. Register the resource bundle using the option -H:IncludeResourceBundles=org.apache.xmlbeans.impl.regex.message.
+	at org.apache.xmlbeans.impl.regex.RegexParser.setLocale(RegexParser.java:88)
+	at org.apache.xmlbeans.impl.regex.RegexParser.<init>(RegexParser.java:78)
+	at org.apache.xmlbeans.impl.regex.ParserForXMLSchema.<init>(ParserForXMLSchema.java:28)
+	at org.apache.xmlbeans.impl.regex.RegularExpression.setPattern(RegularExpression.java:2996)
+	at org.apache.xmlbeans.impl.regex.RegularExpression.setPattern(RegularExpression.java:3009)
+	at org.apache.xmlbeans.impl.regex.RegularExpression.<init>(RegularExpression.java:2975)
+	at org.apache.xmlbeans.impl.regex.SchemaRegularExpression.<init>(SchemaRegularExpression.java:27)
+	at org.apache.xmlbeans.impl.regex.SchemaRegularExpression.<init>(SchemaRegularExpression.java:23)
+	at org.apache.xmlbeans.impl.regex.SchemaRegularExpression$1.<init>(SchemaRegularExpression.java:44)
+	at org.apache.xmlbeans.impl.regex.SchemaRegularExpression.buildKnownPatternMap(SchemaRegularExpression.java:43)
+	at org.apache.xmlbeans.impl.regex.SchemaRegularExpression.<clinit>(SchemaRegularExpression.java:38)
+	at com.oracle.svm.core.hub.ClassInitializationInfo.invokeClassInitializer(ClassInitializationInfo.java:350)
+	at com.oracle.svm.core.hub.ClassInitializationInfo.initialize(ClassInitializationInfo.java:270)
+	... 68 common frames omitted
+----

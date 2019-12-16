@@ -1,0 +1,11 @@
+include::{commondir}/common-graal-setup.adoc[]
+
+We specify a resource bundle directly using `IncludeResourceBundles` option.
+
+https://github.com/oracle/graal/blob/master/substratevm/RESOURCES.md#resource-bundles-on-substrate-vm[Resource Bundles on Substrate VM]:
+
+____
+Java localization support (java.util.ResourceBundle) enables Java code to load L10N resources and show the right user messages suitable for actual runtime time locale, format and etc. settings.
+
+Substrate VM needs an ahead of time knowledge of resources bundles your application needs. Resource bundles need to be provided to the native-image tool so that Substrate VM loads and stores appropriate bundles for usage in the generated binary
+____

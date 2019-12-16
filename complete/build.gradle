@@ -32,6 +32,13 @@ dependencies {
     implementation "io.micronaut:micronaut-http-server-netty"
     implementation "io.micronaut:micronaut-http-client"
 
+    //tag::micronaut-graal[]
+    annotationProcessor "io.micronaut:micronaut-graal"
+    //end::micronaut-graal[]
+    //tag::svm[]
+    compileOnly "org.graalvm.nativeimage:svm:19.3.0"
+    //end::svm[]
+
     //tag::views[]
     implementation "io.micronaut:micronaut-views-thymeleaf"
     runtime "org.thymeleaf:thymeleaf:3.0.9.RELEASE"
