@@ -8,7 +8,6 @@ import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.test.annotation.MicronautTest
 import spock.lang.IgnoreIf
 import spock.util.concurrent.PollingConditions
-
 import javax.inject.Inject
 
 @MicronautTest // <1>
@@ -39,16 +38,15 @@ class DownloadExcelSpec extends GebSpec {
 
         when: 'if we search for a row with a particular value (Building Microservices)'
         SpreadsheetCriteria query = PoiSpreadsheetCriteria.FACTORY.forFile(outputFile)
-        SpreadsheetCriteriaResult result = query.query {
-            sheet(BookExcelService.SHEET_NAME) {
-                row {
-                    cell {
-                        value 'Building Microservices'
-                    }
-                }
-            }
-        }
-
+        SpreadsheetCriteriaResult result = query.query( { workbookCriterion ->
+                workbookCriterion.sheet(BookExcelService.SHEET_NAME, { sheetCriterion ->
+                        sheetCriterion.row({ rowCriterion ->
+                                rowCriterion.cell({ cellCriterion ->
+                                        cellCriterion.value('Building Microservices')
+                                })
+                        })
+                    })
+        })
         then: 'a row is found'
         result.cells.size() == 1
 
