@@ -33,7 +33,7 @@ dependencies {
     implementation "io.micronaut:micronaut-http-client"
 
     //tag::views[]
-    implementation "io.micronaut:micronaut-views"
+    implementation "io.micronaut:micronaut-views-thymeleaf"
     runtime "org.thymeleaf:thymeleaf:3.0.9.RELEASE"
     //end::views[]
 
