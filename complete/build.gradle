@@ -40,7 +40,7 @@ dependencies {
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
 
     //tag::spreadsheetbuilder[]
-    implementation "builders.dsl:spreadsheet-builder-poi:$spreadsheetBuilderPoiVersion"
+    implementation "builders.dsl:spreadsheet-builder-poi:2.0.0"
     //end::spreadsheetbuilder[]
 
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
