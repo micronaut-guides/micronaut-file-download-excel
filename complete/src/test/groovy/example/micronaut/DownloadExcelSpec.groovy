@@ -4,23 +4,20 @@ import builders.dsl.spreadsheet.query.api.SpreadsheetCriteria
 import builders.dsl.spreadsheet.query.api.SpreadsheetCriteriaResult
 import builders.dsl.spreadsheet.query.poi.PoiSpreadsheetCriteria
 import geb.spock.GebSpec
+import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.server.EmbeddedServer
-import io.micronaut.test.annotation.MicronautTest
 import spock.lang.IgnoreIf
 import spock.util.concurrent.PollingConditions
-import javax.inject.Inject
 
-@MicronautTest // <1>
 class DownloadExcelSpec extends GebSpec {
 
-    @Inject
-    EmbeddedServer embeddedServer // <2>
+    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer, [:]) // <1>
 
     @IgnoreIf({ !sys['download.folder'] || sys['geb.env'] != 'chrome' })
     def "books can be downloaded as an excel file"() {
         given:
         PollingConditions conditions = new PollingConditions(timeout: 5)
-        browser.baseUrl = "http://localhost:${embeddedServer.port}" // <3>
+        browser.baseUrl = "http://localhost:${embeddedServer.port}" // <2>
 
         when:
         browser.to HomePage
