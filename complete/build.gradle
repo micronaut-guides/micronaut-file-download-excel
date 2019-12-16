@@ -37,17 +37,23 @@ dependencies {
     runtime "org.thymeleaf:thymeleaf:3.0.9.RELEASE"
     //end::views[]
 
+    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+
+    //tag::spreadsheetbuilder[]
+    implementation "builders.dsl:spreadsheet-builder-poi:$spreadsheetBuilderPoiVersion"
+    //end::spreadsheetbuilder[]
+
+    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+
     //tag::geb[]
-    testCompile "org.gebish:geb-spock:$gebVersion"
+    testImplementation "org.gebish:geb-spock:$gebVersion"
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
     testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
     testImplementation "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
     testImplementation "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
     //end::geb[]
-
-    //tag::spreadsheetbuilder[]
-    implementation "builders.dsl:spreadsheet-builder-poi:$spreadsheetBuilderPoiVersion"
-    //end::spreadsheetbuilder[]
 
     //tag::spock[]
     testImplementation("org.spockframework:spock-core") {
@@ -57,15 +63,12 @@ dependencies {
     testImplementation "io.micronaut.test:micronaut-test-spock"
     //end::spock[]
 
-    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
-    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
 }
 
 test.classpath += configurations.developmentOnly
 
 mainClassName = "example.micronaut.Application"
+
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
