@@ -47,7 +47,9 @@ dependencies {
     testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
 
     //tag::geb[]
-    testImplementation "org.gebish:geb-spock:$gebVersion"
+    testImplementation ("org.gebish:geb-spock:$gebVersion") {
+        exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
     testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
     testImplementation "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
