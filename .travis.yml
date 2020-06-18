@@ -1,6 +1,5 @@
 sudo: false
 addons:
-  firefox: latest
   chrome: stable
 cache:
   directories:

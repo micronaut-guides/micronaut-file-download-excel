@@ -1,3 +1,5 @@
+include::{commondir}/common-micronautonex.adoc[]
+
 In this guide, we are going to demonstrate Micronaut https://docs.micronaut.io/snapshot/guide/index.html#transfers[file transfer] capabilities by creating
 an app which downloads an excel file with a list of books.
 

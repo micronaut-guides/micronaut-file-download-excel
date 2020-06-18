@@ -1,9 +1,7 @@
 Often, file transfers remain untested in many applications. In this section, you will see how
 easy is to test that the file downloads but also that the downloaded file contents match our expectations.
 
-include::{commondir}/common-spockinjavaapp.adoc[]
-
-We use also, Geb; a browser automation solution.
+Micronaut is test framework agnostic. For this tutorial, we use http://spockframework.org/[Spock Framework]. Additionally, we use Geb; a browser automation solution.
 
 To use Geb, add dependencies:
 
