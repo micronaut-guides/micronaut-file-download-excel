@@ -1,7 +1,9 @@
 package example.micronaut;
 
+import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Produces;
 import io.micronaut.http.server.types.files.SystemFile;
 import io.micronaut.views.View;
 
@@ -22,12 +24,13 @@ public class HomeController {
 
     @View("index") // <3>
     @Get
-    Map<String, String> index() {
+    public Map<String, String> index() {
         return new HashMap<>();
     }
 
+    @Produces(value = "application/vnd.ms-excel")
     @Get("/excel") // <4>
-    SystemFile excel() { // <5>
+    public SystemFile excel() { // <5>
         return bookExcelService.excelFileFromBooks(bookRepository.findAll());
     }
 }
